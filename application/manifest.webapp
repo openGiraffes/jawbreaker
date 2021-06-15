@@ -11,10 +11,17 @@
   },
   "developer": {
     "name": "michael_eddy",
-    "url": ""
+    "url": "https://github.com/michael-eddy"
   },
   "fullscreen": true,
   "ime_default_softkey_bar": true,
-  "theme_color": "rgb(0,255,0)",
-  "default_locale": "zh-CN"
+  "theme_color": "#00FF00",
+  "default_locale": "zh-CN",
+  "locales": {
+    "zh-CN": {
+      "name": "jawbreaker",
+      "subtitle": "jawbreaker",
+      "description": "jawbreaker for KaiOS"
+    }
+  }
 }
