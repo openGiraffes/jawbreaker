@@ -4,15 +4,23 @@
 	<title>Jawbreaker</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">	
+	<script type="text/javascript" src="./lib/jquery.min.js"></script>
 	<script type="text/javascript" src="jawbreaker.js"></script>
 	<link type="text/css" rel="stylesheet" href="jawbreaker.css" />
 </head>
 
-<body onload="startNewGame()" align="center">
+<body align="center">
 	<div id="score"><b>Score : 0</b></div>
 	<div id="availableTime"><b></div>
 	<canvas id="gCanvas"></canvas>
+	<div id="mask"></div>
 </body>
+
+<footer id="softkeys">
+	<div id="softkey-left">暂停</div>
+	<div id="softkey-center"></div>
+	<div id="softkey-right">重新开始</div>
+</footer>
 
 </html>

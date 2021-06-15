@@ -108,8 +108,10 @@ function init() {
         }
         circles.push(a);
     }
-
-    availableTime = 180;
+    if (stopTime > 0)
+        availableTime = stopTime;
+    else
+        availableTime = 180;
 
     interval = setInterval(tick, 1000);
 }
@@ -295,42 +297,75 @@ function startNewGame() {
     draw();
 }
 
-window.addEventListener("load", () => {
-    document.addEventListener("keydown", (e) => {
-        switch (e.key) {
-            case "F1":
-            case "SoftLeft":
+window.onload = function () {
+    document.addEventListener("keydown", handleKeydown);
+    startNewGame();
+}
+
+var isStop = false;
+var stopTime = 0;
+
+function handleKeydown(e) {
+    switch (e.key) {
+        case "SoftLeft":
+            if (isStop) {
+                $('#mask').hide();
+                $('#softkey-left').text('暂停');
+                init();
+                stopTime = 0;
+                isStop = false;
+            }
+            else {
+                $('#mask').show();
+                $('#softkey-left').text('恢复');
+                if (interval)
+                    clearInterval(interval);
+                stopTime = availableTime;
+                isStop = true;
+            }
+            break;
+        case "SoftRight":
+            if (!isStop)
                 location.reload();
-                break;
-            case "ArrowUp":
+            break;
+        case "ArrowUp":
+            if (!isStop) {
                 frame.y -= step;
-                if (frame.y < 0) {
+                if (frame.y < 0)
                     frame.y = height - step;
-                }
-                break;
-            case "ArrowDown":
+            }
+            break;
+        case "ArrowDown":
+            if (!isStop) {
                 frame.y += step;
-                if (frame.y > height - step) {
+                if (frame.y > height - step)
                     frame.y = 0;
-                }
-                break;
-            case "ArrowLeft":
+            }
+            break;
+        case "ArrowLeft":
+            if (!isStop) {
                 frame.x -= step;
-                if (frame.x < 0) {
+                if (frame.x < 0)
                     frame.x = width - step;
-                }
-                break;
-            case "ArrowRight":
+            }
+            break;
+        case "ArrowRight":
+            if (!isStop) {
                 frame.x += step;
-                if (frame.x > width - step) {
+                if (frame.x > width - step)
                     frame.x = 0;
-                }
-                break;
-            case "Enter":
+            }
+            break;
+        case "Enter":
+            if (!isStop) {
                 var rect = canvas.getBoundingClientRect();
                 onMouseClick({ clientX: rect.left + frame.x + step / 2, clientY: rect.top + frame.y + step / 2 });
-                break;
-        }
-        draw();
-    });
-});
+            }
+            break;
+        case 'Backspace':
+            if (confirm('是否退出?'))
+                window.close();
+            break;
+    }
+    draw();
+}
