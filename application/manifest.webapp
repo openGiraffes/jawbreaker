@@ -1,0 +1,10 @@
+{
+    "name": "jawbreaker",
+    "description": "jawbreaker",
+    "version": "1.0",
+    "launch_path": "/jawbreaker.html",
+    "permissions": {},
+    "fullscreen": false,
+    "type": "web",
+    "theme_color": "rgb(0,255,0)"
+}
