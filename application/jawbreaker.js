@@ -24,7 +24,7 @@ var animationInterval = null;
 var interval = null;
 
 function animate() {
-    animationFrames+=10;
+    animationFrames += 10;
     if (animationFrames >= 256) {
         animationFrames = 0;
         clearInterval(animationInterval);
@@ -43,7 +43,6 @@ function animate() {
         score += Math.pow(2.0, count);
         document.getElementById("score").innerHTML = "<b>Score : " + score + "</b>";
         animating = false;
-        playExplositionSound();
         update();
         draw();
     } else {
@@ -158,10 +157,6 @@ function update() {
     }
 }
 
-function playExplositionSound() {
-    new Audio("sounds/explosion.mp3").play();
-}
-
 function onMouseClick(event) {
     var rect = canvas.getBoundingClientRect();
     var x = event.clientX - rect.left;
@@ -266,7 +261,7 @@ function onMouseClick(event) {
     }
 }
 
-let frame = {x:0,y:0};
+let frame = { x: 0, y: 0 };
 
 function draw() {
     if (canvas.getContext) {
@@ -287,7 +282,7 @@ function draw() {
                 }
             }
         }
-        ctx.rect(frame.x-1,frame.y-1,step,step);
+        ctx.rect(frame.x - 1, frame.y - 1, step, step);
         ctx.stroke();
         canvas.addEventListener("mousedown", onMouseClick, false);
     } else {
@@ -333,7 +328,7 @@ window.addEventListener("load", () => {
                 break;
             case "Enter":
                 var rect = canvas.getBoundingClientRect();
-                onMouseClick({clientX:rect.left + frame.x + step/2,clientY:rect.top + frame.y + step/2});
+                onMouseClick({ clientX: rect.left + frame.x + step / 2, clientY: rect.top + frame.y + step / 2 });
                 break;
         }
         draw();

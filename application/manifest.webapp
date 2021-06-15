@@ -1,10 +1,20 @@
 {
-    "name": "jawbreaker",
-    "description": "jawbreaker",
-    "version": "1.0",
-    "launch_path": "/jawbreaker.html",
-    "permissions": {},
-    "fullscreen": false,
-    "type": "web",
-    "theme_color": "rgb(0,255,0)"
+  "name": "jawbreaker",
+  "subtitle": "jawbreaker",
+  "description": "jawbreaker for KaiOS",
+  "version": "1.0",
+  "launch_path": "/jawbreaker.html",
+  "type": "privileged",
+  "origin": "app://kai.michael.jawbreaker",
+  "icons": {
+    "120": "/img/icon120x120.png"
+  },
+  "developer": {
+    "name": "michael_eddy",
+    "url": ""
+  },
+  "fullscreen": true,
+  "ime_default_softkey_bar": true,
+  "theme_color": "rgb(0,255,0)",
+  "default_locale": "zh-CN"
 }
