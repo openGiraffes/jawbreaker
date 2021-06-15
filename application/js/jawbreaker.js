@@ -2,19 +2,19 @@ var canvas = null;
 var score = 0;
 var circles = null;
 var colors = null;
-var width = 400;
-var height = 400;
-var step = 40;
-var stepBy2 = 20;
+var width = 220;
+var height = width;
+var step = 40 / 400 * width;
+var stepBy2 = 20 / 400 * width;
 var offsetX = 0;
 var offsetY = 0;
-var radius = 18;
+var radius = 18 / 400 * width;
 var radiusSquare = radius * radius;
 var neighbours = [
     [0, 1],
     [0, -1],
     [1, 0],
-    [-1, 0]
+    [-1, 0],
 ];
 
 var availableTime = 300;
@@ -41,14 +41,14 @@ function animate() {
         }
 
         score += Math.pow(2.0, count);
-        document.getElementById('score').innerHTML = '<b>Score : ' + score + '</b>';
+        document.getElementById("score").innerHTML = "<b>Score : " + score + "</b>";
         animating = false;
         playExplositionSound();
         update();
         draw();
     } else {
-        var ctx = canvas.getContext('2d');
-        ctx.fillStyle = 'white';
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "white";
         ctx.fillRect(0, 0, width, height);
         for (var i = 0; i < circles.length; ++i) {
             for (var j = 0; j < circles[i].length; ++j) {
@@ -77,30 +77,24 @@ function tick() {
         --availableTime;
         var mm = Math.floor(availableTime / 60);
         var ss = availableTime % 60;
-        var at = (mm < 10 ? '0' : '') + mm + ':' + (ss < 10 ? '0' : '') + ss;
-        document.getElementById('availableTime').innerHTML = '<b>' + at + '</b>';
+        var at = (mm < 10 ? "0" : "") + mm + ":" + (ss < 10 ? "0" : "") + ss;
+        document.getElementById("availableTime").innerHTML = "<b>" + at + "</b>";
     } else {
         if (interval) clearInterval(interval);
 
-        alert('Game ended! No time left!');
-        if (confirm('Do you want to play another game?')) {
+        alert("Game ended! No time left!");
+        if (confirm("Do you want to play another game?")) {
             startNewGame();
         }
     }
 }
 
 function init() {
-    canvas = document.getElementById('gCanvas');
+    canvas = document.getElementById("gCanvas");
     canvas.width = width;
     canvas.height = height;
     score = 0;
-    colors = [
-        "rgb(200,0,0)",
-        "rgb(0,200,0)",
-        "rgb(0,0,200)",
-        "rgb(200,200,0)",
-        "rgb(200,0,200)"
-    ];
+    colors = ["rgb(200,0,0)", "rgb(0,200,0)", "rgb(0,0,200)", "rgb(200,200,0)", "rgb(200,0,200)"];
     circles = [];
     for (var i = 0; i < width; i += step) {
         a = [];
@@ -110,7 +104,7 @@ function init() {
                 y: j + radius,
                 selected: false,
                 destroyed: false,
-                color: colors[Math.floor(Math.random() * colors.length)]
+                color: colors[Math.floor(Math.random() * colors.length)],
             });
         }
         circles.push(a);
@@ -191,12 +185,12 @@ function onMouseClick(event) {
                 }
             }
         }
-
     }
     if (ii != -1) c = circles[ii][jj];
     else c = null;
     if (c) {
-        if (c.destroyed) { } else if (c.selected) {
+        if (c.destroyed) {
+        } else if (c.selected) {
             var count = 0;
             for (var i = 0; i < circles.length; ++i) {
                 for (var j = 0; j < circles[i].length; ++j) {
@@ -227,7 +221,15 @@ function onMouseClick(event) {
                 for (var i = 0; i < neighbours.length; ++i) {
                     xx = m + neighbours[i][0];
                     yy = n + neighbours[i][1];
-                    if (xx >= 0 && xx < circles.length && yy >= 0 && yy < circles[xx].length && circles[xx][yy].selected === false && circles[xx][yy].color == c.color && circles[xx][yy].destroyed === false) {
+                    if (
+                        xx >= 0 &&
+                        xx < circles.length &&
+                        yy >= 0 &&
+                        yy < circles[xx].length &&
+                        circles[xx][yy].selected === false &&
+                        circles[xx][yy].color == c.color &&
+                        circles[xx][yy].destroyed === false
+                    ) {
                         circles[xx][yy].selected = true;
                         q.push([xx, yy]);
                     }
@@ -255,8 +257,8 @@ function onMouseClick(event) {
 
         if (endGame) {
             if (interval) clearInterval(interval);
-            alert('Game ended! No move left!');
-            if (confirm('Do you want to play another game?')) {
+            alert("Game ended! No move left!");
+            if (confirm("Do you want to play another game?")) {
                 startNewGame();
             }
         }
@@ -264,10 +266,12 @@ function onMouseClick(event) {
     }
 }
 
+let frame = {x:0,y:0};
+
 function draw() {
     if (canvas.getContext) {
-        var ctx = canvas.getContext('2d');
-        ctx.fillStyle = 'white';
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "white";
         ctx.fillRect(0, 0, width, height);
         for (var i = 0; i < circles.length; ++i) {
             for (var j = 0; j < circles[i].length; ++j) {
@@ -283,9 +287,11 @@ function draw() {
                 }
             }
         }
+        ctx.rect(frame.x,frame.y,step,step);
+        ctx.stroke();
         canvas.addEventListener("mousedown", onMouseClick, false);
     } else {
-        alert('Can\'t get the 2d context!');
+        alert("Can't get the 2d context!");
     }
 }
 
@@ -293,3 +299,43 @@ function startNewGame() {
     init();
     draw();
 }
+
+window.addEventListener("load", () => {
+    document.addEventListener("keydown", (e) => {
+        switch (e.key) {
+            case "F1":
+            case "SoftLeft":
+                location.reload();
+                break;
+            case "ArrowUp":
+                frame.y -= step;
+                if (frame.y < 0) {
+                    frame.y = height - step;
+                }
+                break;
+            case "ArrowDown":
+                frame.y += step;
+                if (frame.y > height - step) {
+                    frame.y = 0;
+                }
+                break;
+            case "ArrowLeft":
+                frame.x -= step;
+                if (frame.x < 0) {
+                    frame.x = width - step;
+                }
+                break;
+            case "ArrowRight":
+                frame.x += step;
+                if (frame.x > width - step) {
+                    frame.x = 0;
+                }
+                break;
+            case "Enter":
+                var rect = canvas.getBoundingClientRect();
+                onMouseClick({clientX:rect.left + frame.x + step/2,clientY:rect.top + frame.y + step/2});
+                break;
+        }
+        draw();
+    });
+});
