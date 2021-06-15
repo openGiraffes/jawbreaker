@@ -24,8 +24,8 @@ var animationInterval = null;
 var interval = null;
 
 function animate() {
-    ++animationFrames;
-    if (animationFrames == 256) {
+    animationFrames+=10;
+    if (animationFrames >= 256) {
         animationFrames = 0;
         clearInterval(animationInterval);
         animationInterval = null;
@@ -287,7 +287,7 @@ function draw() {
                 }
             }
         }
-        ctx.rect(frame.x,frame.y,step,step);
+        ctx.rect(frame.x-1,frame.y-1,step,step);
         ctx.stroke();
         canvas.addEventListener("mousedown", onMouseClick, false);
     } else {
