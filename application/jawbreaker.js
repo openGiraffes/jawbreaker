@@ -16,7 +16,7 @@ var neighbours = [
     [1, 0],
     [-1, 0],
 ];
-
+let frame = { x: 0, y: 0 };
 var availableTime = 300;
 var animationFrames = 0;
 var animating = false;
@@ -39,13 +39,13 @@ function animate() {
                 }
             }
         }
-
         score += Math.pow(2.0, count);
         document.getElementById("score").innerHTML = "<b>Score : " + score + "</b>";
         animating = false;
         update();
         draw();
-    } else {
+    }
+    else {
         var ctx = canvas.getContext("2d");
         ctx.fillStyle = "white";
         ctx.fillRect(0, 0, width, height);
@@ -58,7 +58,8 @@ function animate() {
                     ctx.beginPath();
                     ctx.arc(c.x, c.y, radius, 0, 2 * Math.PI, false);
                     ctx.fill();
-                } else {
+                }
+                else {
                     ctx.fillStyle = c.color;
                     ctx.beginPath();
                     ctx.arc(c.x, c.y, radius, 0, 2 * Math.PI, false);
@@ -71,18 +72,17 @@ function animate() {
 
 function tick() {
     if (animating) return;
-
     if (availableTime > 0) {
         --availableTime;
         var mm = Math.floor(availableTime / 60);
         var ss = availableTime % 60;
         var at = (mm < 10 ? "0" : "") + mm + ":" + (ss < 10 ? "0" : "") + ss;
         document.getElementById("availableTime").innerHTML = "<b>" + at + "</b>";
-    } else {
+    }
+    else {
         if (interval) clearInterval(interval);
-
-        alert("Game ended! No time left!");
-        if (confirm("Do you want to play another game?")) {
+        alert("时间到了游戏结束!");
+        if (confirm("是否重新再来一局?")) {
             startNewGame();
         }
     }
@@ -112,7 +112,6 @@ function init() {
         availableTime = stopTime;
     else
         availableTime = 180;
-
     interval = setInterval(tick, 1000);
 }
 
@@ -177,7 +176,8 @@ function onMouseClick(event) {
                     ii = i;
                     jj = j;
                     break;
-                } else {
+                }
+                else {
                     c = null;
                 }
             }
@@ -187,7 +187,8 @@ function onMouseClick(event) {
     else c = null;
     if (c) {
         if (c.destroyed) {
-        } else if (c.selected) {
+        }
+        else if (c.selected) {
             var count = 0;
             for (var i = 0; i < circles.length; ++i) {
                 for (var j = 0; j < circles[i].length; ++j) {
@@ -196,12 +197,12 @@ function onMouseClick(event) {
                     }
                 }
             }
-
             if (count > 1) {
                 animating = true;
                 animationInterval = setInterval(animate, 1);
             }
-        } else {
+        }
+        else {
             for (var i = 0; i < circles.length; ++i) {
                 for (var j = 0; j < circles[i].length; ++j) {
                     circles[i][j].selected = false;
@@ -218,15 +219,9 @@ function onMouseClick(event) {
                 for (var i = 0; i < neighbours.length; ++i) {
                     xx = m + neighbours[i][0];
                     yy = n + neighbours[i][1];
-                    if (
-                        xx >= 0 &&
-                        xx < circles.length &&
-                        yy >= 0 &&
-                        yy < circles[xx].length &&
-                        circles[xx][yy].selected === false &&
-                        circles[xx][yy].color == c.color &&
-                        circles[xx][yy].destroyed === false
-                    ) {
+                    if (xx >= 0 && xx < circles.length && yy >= 0 && yy < circles[xx].length &&
+                        circles[xx][yy].selected === false && circles[xx][yy].color == c.color
+                        && circles[xx][yy].destroyed === false) {
                         circles[xx][yy].selected = true;
                         q.push([xx, yy]);
                     }
@@ -251,19 +246,15 @@ function onMouseClick(event) {
                 }
             }
         }
-
         if (endGame) {
             if (interval) clearInterval(interval);
-            alert("Game ended! No move left!");
-            if (confirm("Do you want to play another game?")) {
+            alert("时间到了游戏结束!");
+            if (confirm("是否重新再来一局?")) {
                 startNewGame();
             }
         }
-    } else {
     }
 }
-
-let frame = { x: 0, y: 0 };
 
 function draw() {
     if (canvas.getContext) {
@@ -287,8 +278,9 @@ function draw() {
         ctx.rect(frame.x - 1, frame.y - 1, step, step);
         ctx.stroke();
         canvas.addEventListener("mousedown", onMouseClick, false);
-    } else {
-        alert("Can't get the 2d context!");
+    }
+    else {
+        alert("获取Canvas对象失败！");
     }
 }
 
